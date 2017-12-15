@@ -13,13 +13,14 @@ public class OauthConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.antMatcher("/**")
-            .authorizeRequests()
-            .antMatchers("/", "/login**")
-            .permitAll()
-            .anyRequest()
-            .authenticated()
-            .and().logout().deleteCookies("JSESSIONID","UISESSION").invalidateHttpSession(true).clearAuthentication(true).logoutSuccessUrl("/")
+        http.antMatcher("/**").authorizeRequests()
+            .antMatchers("/", "/login**").permitAll()
+            .anyRequest().authenticated()
+            .and()
+                .logout().deleteCookies("JSESSIONID","UISESSION").invalidateHttpSession(true).clearAuthentication(true).logoutSuccessUrl("/")
+            .and()
+                .csrf()
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         ;
 
     }
